@@ -1,0 +1,44 @@
+.signIn {
+    background-size: cover;
+    flex: 1;
+    /* height: 100vh; */
+    display: flex;
+    justify-content: center;
+    padding-top: 50px;
+  }
+
+.logInForm{
+    background-color: hsla(235, 31%, 86%, 0.863);
+    padding: 30px;
+    border :1px solid rgba(124, 97, 97, 0.726),
+    border -radius 1px;
+}
+
+input{
+    padding:5px;
+    margin:3px  0px;
+    outline: none;
+    font-size:16px;
+    width:100%;
+    box-sizing:border-box;
+}
+
+/* #logIn{
+    background-color: hsla(234, 64%, 55%, 0.863);
+    border:none;
+    border-radius: 3px;
+    color: beige;
+    font-weight: bold;
+    padding: 5px;
+    width:80%;
+    cursor: pointer;
+
+ } */
+
+.loginForm2{
+    background-color: rgb(235, 241, 253);
+    padding: 30px;
+    margin-top: 5px;
+    border :1px solid rgba(124, 97, 97, 0.726),
+    border -radius 1px;
+}

@@ -1,0 +1,29 @@
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    flex:0.35;
+}
+
+.sidebar_header{
+    display: flex;
+    justify-content: space-between;
+    padding:20px;
+    border-right: 1px solid gray
+}
+
+.sidebar_headerRight{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-width: 10vw;
+}
+
+.sidebar_chats{
+    flex:1;
+    background-color:white;
+    overflow:scroll;
+}
+
+.create_button{
+    margin-bottom: 10px;
+}
