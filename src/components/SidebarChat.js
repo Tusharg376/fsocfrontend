@@ -16,7 +16,7 @@ export default function SidebarChat() {
         Navigate('/signIn');
         return;
       }
-      await axios.get('https://talkiesspot.onrender.com/rooms', {
+      await axios.get('http://localhost:3001/rooms', {
         headers: { "x-api-key": localStorage.getItem("token") }
       })
         .then((res) => {
@@ -45,6 +45,7 @@ export default function SidebarChat() {
     <>
     {rooms.map((room) => (
       <div className='sidebarChat' key={room._id} onClick={() => OpenChat(room._id)}>
+        {console.log(room)}
         <Avatar src={room.profile}/>
         <div className='sidebarChat_info'>
             <h4>{room.roomName}</h4>

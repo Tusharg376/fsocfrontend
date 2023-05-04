@@ -21,7 +21,7 @@ export default function CreateRoom() {
     formData.append('profile', profile);
 
     await axios
-      .post('https://talkiesspot.onrender.com/createRoom', formData, {
+      .post('http://localhost:3001/createRoom', formData, {
         headers: { 'Content-Type': 'multipart/form-data', 'x-api-key': token },
       })
       .then(() => {

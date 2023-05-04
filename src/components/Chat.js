@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import "./Chat.css";
-import { Avatar, IconButton, Menu, MenuItem, Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from '@mui/material';
+import { Avatar, IconButton, Menu, MenuItem, Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Chip, MenuList } from '@mui/material';
 import ListIcon from '@mui/icons-material/List';
 import SendIcon from '@mui/icons-material/Send';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -8,6 +8,7 @@ import axios from 'axios';
 
 export default function Chat() {
     const [anchorEl, setAnchorEl] = useState(null);
+    const [anchorEl1, setAnchorEl1] = useState(null);
     const [addMemberOpen, setAddMemberOpen] = useState(false);
     const [renameRoomOpen, setRenameRoomOpen] = useState(false);
     const [removeMemberOpen, setRemoveMemberOpen] = useState(false);
@@ -18,13 +19,24 @@ export default function Chat() {
     const [newRoomName,setNewRoomName] = useState("")
     const [messageArr , setMessageArr] = useState([])
     const [newMessage, setNewMessage] = useState("")
-
+    const [users,setUsers] = useState([])
     // console.log(roomId)
 
     const userId = localStorage.getItem("userId");
     const token = localStorage.getItem('token');
     
     const Navigate = useNavigate()
+    
+  const handleMenuClick1 = (event) => {
+    // console.log(event)
+    showUsers()
+    setAnchorEl1(event.currentTarget)
+  };
+
+  const handleMenuClose1 = () => {
+    setAnchorEl1(null);
+  };
+  
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -62,11 +74,11 @@ export default function Chat() {
 
   useEffect(() =>{
       const fetchData = async () =>{
-        await axios.get(`https://talkiesspot.onrender.com/rooms/${roomId}`,{
+        await axios.get(`http://localhost:3001/rooms/${roomId}`,{
             headers: { "x-api-key": localStorage.getItem("token") }
           })
           .then((res)=>{
-            console.log(res.data.data);
+            // console.log(res.data.data);
             setMessageArr(res.data.data)
           }).catch((err)=>{
             console.log(err.response)
@@ -77,7 +89,7 @@ export default function Chat() {
   
   useEffect(() => {
         const fetchData = async ()=>{
-          await axios.get(`https://talkiesspot.onrender.com/getroom/${roomId}`,{
+          await axios.get(`http://localhost:3001/getroom/${roomId}`,{
             headers: { "x-api-key": localStorage.getItem("token") }
           }).then((res)=>{
               // console.log(res)    
@@ -92,21 +104,21 @@ export default function Chat() {
 
 
   const handleAddMemberSubmit = async () => {
-    await axios.post(`https://talkiesspot.onrender.com/addmember/${roomId}`,{
+    await axios.post(`http://localhost:3001/addmember/${roomId}`,{
       email:email
     },{headers:{"x-api-key":token}}).then((res)=>{
       window.alert("Member Added Successfully")
       Navigate(`/rooms/${roomId}`)
     }).catch((err)=>{
       console.log(err)
-      window.alert(err.response)
+      window.alert(err.response.data.message)
     })
     handleAddMemberClose();
   }
   
 
   const handleRenameRoomSubmit = async () => {
-    await axios.put(`https://talkiesspot.onrender.com/renameRoom/${roomId}`,{
+    await axios.put(`http://localhost:3001/renameRoom/${roomId}`,{
       roomName:newRoomName
     },{headers:{"x-api-key":token}}).then(()=>{
       Navigate(`/rooms/${roomId}`)
@@ -117,28 +129,42 @@ export default function Chat() {
   }
 
   const handleRemoveMemberSubmit = async () =>{
-    await axios.put(`https://talkiesspot.onrender.com/removemember/${roomId}`,{
+    await axios.put(`http://localhost:3001/removemember/${roomId}`,{
       email:email
     },{headers:{"x-api-key":token}}).then(()=>{
       window.alert("Member Removed Successfully");
       Navigate(`/rooms/${roomId}`)
     }).catch((err)=>{
-      console.log(err)
+      // console.log(err)
       window.alert(err.response)
     })
     handleRemoveMemberClose()
   } 
 
   const handleSendMessage = async () =>{
-    await axios.post(`https://talkiesspot.onrender.com/sendmessage/${roomId}`,{
+    await axios.post(`http://localhost:3001/sendmessage/${roomId}`,{
       content: newMessage
     },{headers:{"x-api-key":token}})
     .then(()=>{
-      console.log("sent")
+      // console.log("sent")
       setNewMessage("")
     }).catch((err)=>{
       window.alert(err.response.data.message)
       console.log(err.response)
+    })
+  }
+
+  const showUsers = async () => {
+    await axios.get(`http://localhost:3001/getroom/${roomId}`,{
+      headers:{"x-api-key":token}
+    }).then((res)=>{
+      // console.log(res)
+      let arr = res.data.data.users
+      arr.push(res.data.data.roomAdmin)
+      // setUsers(res.data.data.users)
+      setUsers(arr)
+    }).catch((err)=>{
+      window.alert(err.response.data.message)
     })
   }
 
@@ -148,7 +174,22 @@ export default function Chat() {
        <div className='chat_header'>
           <Avatar src={ roomProfile}/>
           <div className='chat_headerInfo'>
+            <IconButton onClick={handleMenuClick1}>
               <h4>{`${ roomName }`}</h4>
+            </IconButton>
+              {users.length > 0 &&  
+              <Menu 
+              anchorEl={anchorEl1}
+              open={Boolean(anchorEl1)}
+              onClose={handleMenuClose1}
+              >
+                <MenuList>Room Participants :- </MenuList>
+                {users.map((result,index)=>(
+                  <MenuItem key={index} padding={true}>{index === users.length - 1 ? `${result.name} (${result.email}) (Admin)` : `${result.name} (${result.email})`}</MenuItem>
+                ))
+                }
+
+              </Menu> }
           </div>
           <div className='chat_headerRight'>
             <IconButton onClick={handleMenuClick}>

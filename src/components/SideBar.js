@@ -19,6 +19,7 @@ export default function SideBar() {
   const navigate = useNavigate();
 
   const handleMenuClick1 = (event) => {
+    console.log(event.currentTarget)
     setAnchorEl1(event.currentTarget);
   };
 
@@ -50,7 +51,7 @@ export default function SideBar() {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const res = await axios.get('https://talkiesspot.onrender.com/userdata', {
+        const res = await axios.get('http://localhost:3001/userdata', {
           headers: { "x-api-key": token }
         });
         setProfile(res.data.data.profile);
@@ -71,7 +72,7 @@ export default function SideBar() {
     }
 
     try {
-      await axios.put('https://talkiesspot.onrender.com/updateuser', formData, {
+      await axios.put('http://localhost:3001/updateuser', formData, {
         headers: { "Content-Type": "multipart/form-data", "x-api-key": token },
       });
       window.alert("update successfull");
@@ -92,7 +93,7 @@ export default function SideBar() {
 
   const handleSearch = async () => {
     try {
-      const res = await axios.post('https://talkiesspot.onrender.com/searchRoom', {searchData:searchData} , {
+      const res = await axios.post('http://localhost:3001/searchRoom', {searchData:searchData} , {
         headers: { "x-api-key": token }
       });
       console.log(searchResults)
@@ -149,6 +150,7 @@ export default function SideBar() {
       </div>
       <div className = "create_button">
         <Button variant="outlined" onClick={createRoom}>Create New Room</Button>
+        <Button variant="outlined" onClick={createRoom}>join Existing Room</Button>
       </div>
       <div className="sidebar_chats">
         <SidebarChat />

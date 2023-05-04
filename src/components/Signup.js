@@ -31,7 +31,7 @@ export default function SignUp() {
     formData.append('profile', profile);
 
     await axios
-      .post('https://talkiesspot.onrender.com/createUser', formData, {
+      .post('http://localhost:3001/createUser', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       })
       .then(() => {
