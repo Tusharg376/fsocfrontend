@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './CreateRoom.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { TextField } from '@mui/material';
 
 export default function CreateRoom() {
   const Navigate = useNavigate();
@@ -35,26 +36,30 @@ export default function CreateRoom() {
   return (
     <div className='createRoom'>
       <div className='form-container'>
+        <h3>Create New Room</h3>
         <div className='form'>
           <div>
-            <input
+          <TextField id="outlined-basic" label="Room Name" variant="outlined" sx={{ m: 1, width: '30ch' }}
+              value={roomName}
+              onChange={(e) => setRoomName(e.target.value)}/>
+              {/* <TextField id="filled-basic" label="Filled" variant="filled" sx={{ m: 1, width: '30ch' }} /> */}
+            {/* <input
               type='text'
               name='name'
               id='name'
               placeholder='Room Name'
-              value={roomName}
-              onChange={(e) => setRoomName(e.target.value)}
-            />
+            /> */}
           </div>
           <div>
-            <input
+          <TextField id="outlined-basic" label="Email Of Members" variant="outlined" sx={{ m: 1, width: '30ch' }}
+              value={users}
+              onChange={(e) => setUsers(e.target.value)}/>
+            {/* <input
               type='text'
               name='users'
               id='users'
               placeholder='Email of Members'
-              value={users}
-              onChange={(e) => setUsers(e.target.value)}
-            />
+            /> */}
           </div>
           <div>
             <input

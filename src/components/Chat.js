@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import "./Chat.css";
-import { Avatar, IconButton, Menu, MenuItem, Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Chip, MenuList } from '@mui/material';
+import { Avatar, IconButton, Menu, MenuItem, Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, MenuList } from '@mui/material';
 import ListIcon from '@mui/icons-material/List';
 import SendIcon from '@mui/icons-material/Send';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -183,7 +183,7 @@ export default function Chat() {
               open={Boolean(anchorEl1)}
               onClose={handleMenuClose1}
               >
-                <MenuList>Room Participants :- </MenuList>
+                <MenuList>  Room Participants :- </MenuList>
                 {users.map((result,index)=>(
                   <MenuItem key={index} padding={true}>{index === users.length - 1 ? `${result.name} (${result.email}) (Admin)` : `${result.name} (${result.email})`}</MenuItem>
                 ))

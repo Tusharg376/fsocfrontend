@@ -19,12 +19,13 @@ export default function SideBar() {
   const navigate = useNavigate();
 
   const handleMenuClick1 = (event) => {
-    console.log(event.currentTarget)
+    // console.log(event.currentTarget)
     setAnchorEl1(event.currentTarget);
   };
 
   const handleMenuClose1 = () => {
     setAnchorEl1(null);
+    setSearchResults([])
   };
 
   const handleMenuClick2 = (event) => {
@@ -46,6 +47,10 @@ export default function SideBar() {
 
   function createRoom() {
     navigate("/createroom");
+  }
+
+  function joinRoom(){
+    navigate("/findRoom")
   }
 
   useEffect(() => {
@@ -150,7 +155,7 @@ export default function SideBar() {
       </div>
       <div className = "create_button">
         <Button variant="outlined" onClick={createRoom}>Create New Room</Button>
-        <Button variant="outlined" onClick={createRoom}>join Existing Room</Button>
+        <Button variant="outlined" onClick={joinRoom}>join Existing Room</Button>
       </div>
       <div className="sidebar_chats">
         <SidebarChat />

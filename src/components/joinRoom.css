@@ -1,0 +1,24 @@
+.root {
+    display: 'flex';
+    flex-direction:column;
+    align-items: center;
+    margin: '50px';
+  }
+/* 
+  .searchField {
+    margin-top: '100px';
+    margin-bottom: '20px';
+    width: '400px';
+  }; */
+
+  .tableContainer {
+    max-height: 500;
+    width: '800px';
+  }
+  .tableHeaderCell {
+    font-weight: 'bold';
+  }
+  .joinButton {
+    background-color: 'green';
+    color: 'white';
+  }
