@@ -17,9 +17,9 @@ export default function SideBar() {
   const [searchData, setSearchData] = useState("");
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
+  const apiUrl = process.env.REACT_APP_API_URL
 
   const handleMenuClick1 = (event) => {
-    // console.log(event.currentTarget)
     setAnchorEl1(event.currentTarget);
   };
 
@@ -56,7 +56,7 @@ export default function SideBar() {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const res = await axios.get('http://localhost:3001/userdata', {
+        const res = await axios.get(`${apiUrl}/userData`, {
           headers: { "x-api-key": token }
         });
         setProfile(res.data.data.profile);
@@ -77,7 +77,7 @@ export default function SideBar() {
     }
 
     try {
-      await axios.put('http://localhost:3001/updateuser', formData, {
+      await axios.put(`${apiUrl}/updateuser`, formData, {
         headers: { "Content-Type": "multipart/form-data", "x-api-key": token },
       });
       window.alert("update successfull");
@@ -98,7 +98,7 @@ export default function SideBar() {
 
   const handleSearch = async () => {
     try {
-      const res = await axios.post('http://localhost:3001/searchRoom', {searchData:searchData} , {
+      const res = await axios.post(`${apiUrl}/searchRoom`, {searchData:searchData} , {
         headers: { "x-api-key": token }
       });
       console.log(searchResults)

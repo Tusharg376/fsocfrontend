@@ -20,7 +20,8 @@ export default function Chat() {
     const [messageArr , setMessageArr] = useState([])
     const [newMessage, setNewMessage] = useState("")
     const [users,setUsers] = useState([])
-    // console.log(roomId)
+    const apiUrl = process.env.REACT_APP_API_URL
+
 
     const userId = localStorage.getItem("userId");
     const token = localStorage.getItem('token');
@@ -28,7 +29,6 @@ export default function Chat() {
     const Navigate = useNavigate()
     
   const handleMenuClick1 = (event) => {
-    // console.log(event)
     showUsers()
     setAnchorEl1(event.currentTarget)
   };
@@ -74,11 +74,10 @@ export default function Chat() {
 
   useEffect(() =>{
       const fetchData = async () =>{
-        await axios.get(`http://localhost:3001/rooms/${roomId}`,{
+        await axios.get(`${apiUrl}/rooms/${roomId}`,{
             headers: { "x-api-key": localStorage.getItem("token") }
           })
           .then((res)=>{
-            // console.log(res.data.data);
             setMessageArr(res.data.data)
           }).catch((err)=>{
             console.log(err.response)
@@ -89,10 +88,9 @@ export default function Chat() {
   
   useEffect(() => {
         const fetchData = async ()=>{
-          await axios.get(`http://localhost:3001/getroom/${roomId}`,{
+          await axios.get(`${apiUrl}/getroom/${roomId}`,{
             headers: { "x-api-key": localStorage.getItem("token") }
-          }).then((res)=>{
-              // console.log(res)    
+          }).then((res)=>{ 
               setRoomName(res.data.data.roomName)
               setRoomProfile(res.data.data.profile)
           }).catch((err)=>{
@@ -104,7 +102,7 @@ export default function Chat() {
 
 
   const handleAddMemberSubmit = async () => {
-    await axios.post(`http://localhost:3001/addmember/${roomId}`,{
+    await axios.post(`${apiUrl}/addmember/${roomId}`,{
       email:email
     },{headers:{"x-api-key":token}}).then((res)=>{
       window.alert("Member Added Successfully")
@@ -118,7 +116,7 @@ export default function Chat() {
   
 
   const handleRenameRoomSubmit = async () => {
-    await axios.put(`http://localhost:3001/renameRoom/${roomId}`,{
+    await axios.put(`${apiUrl}/renameRoom/${roomId}`,{
       roomName:newRoomName
     },{headers:{"x-api-key":token}}).then(()=>{
       Navigate(`/rooms/${roomId}`)
@@ -129,24 +127,22 @@ export default function Chat() {
   }
 
   const handleRemoveMemberSubmit = async () =>{
-    await axios.put(`http://localhost:3001/removemember/${roomId}`,{
+    await axios.put(`${apiUrl}/removemember/${roomId}`,{
       email:email
     },{headers:{"x-api-key":token}}).then(()=>{
       window.alert("Member Removed Successfully");
       Navigate(`/rooms/${roomId}`)
     }).catch((err)=>{
-      // console.log(err)
-      window.alert(err.response)
+      window.alert(err.response.data.message)
     })
     handleRemoveMemberClose()
   } 
 
   const handleSendMessage = async () =>{
-    await axios.post(`http://localhost:3001/sendmessage/${roomId}`,{
+    await axios.post(`${apiUrl}/sendmessage/${roomId}`,{
       content: newMessage
     },{headers:{"x-api-key":token}})
     .then(()=>{
-      // console.log("sent")
       setNewMessage("")
     }).catch((err)=>{
       window.alert(err.response.data.message)
@@ -155,13 +151,11 @@ export default function Chat() {
   }
 
   const showUsers = async () => {
-    await axios.get(`http://localhost:3001/getroom/${roomId}`,{
+    await axios.get(`${apiUrl}/getroom/${roomId}`,{
       headers:{"x-api-key":token}
     }).then((res)=>{
-      // console.log(res)
       let arr = res.data.data.users
       arr.push(res.data.data.roomAdmin)
-      // setUsers(res.data.data.users)
       setUsers(arr)
     }).catch((err)=>{
       window.alert(err.response.data.message)

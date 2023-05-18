@@ -6,6 +6,7 @@ import { useNavigate} from 'react-router-dom';
 
 export default function SidebarChat() {
   const [rooms, setRooms] = useState([])
+  const apiUrl = process.env.REACT_APP_API_URL
 
   const Navigate = useNavigate()
 
@@ -16,7 +17,7 @@ export default function SidebarChat() {
         Navigate('/signIn');
         return;
       }
-      await axios.get('http://localhost:3001/rooms', {
+      await axios.get(`${apiUrl}/rooms`, {
         headers: { "x-api-key": localStorage.getItem("token") }
       })
         .then((res) => {

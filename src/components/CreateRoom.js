@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './CreateRoom.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -11,8 +11,18 @@ export default function CreateRoom() {
   const [users, setUsers] = useState('');
   const [isPrivate, setIsPrivate] = useState(false);
   const [profile, setProfile] = useState(null);
+  const apiUrl = process.env.REACT_APP_API_URL
+
 
   const token = localStorage.getItem('token');
+  useEffect(()=>{
+    const fetchData =  ()=>{
+        if(!token){
+            Navigate('/signin')
+        }    
+    }
+    fetchData()
+})
 
   const createRoom = async function () {
     const formData = new FormData();
@@ -21,8 +31,7 @@ export default function CreateRoom() {
     formData.append('isPrivate', isPrivate);
     formData.append('profile', profile);
 
-    await axios
-      .post('http://localhost:3001/createRoom', formData, {
+    await axios.post(`${apiUrl}/createRoom`, formData, {
         headers: { 'Content-Type': 'multipart/form-data', 'x-api-key': token },
       })
       .then(() => {
@@ -42,24 +51,11 @@ export default function CreateRoom() {
           <TextField id="outlined-basic" label="Room Name" variant="outlined" sx={{ m: 1, width: '30ch' }}
               value={roomName}
               onChange={(e) => setRoomName(e.target.value)}/>
-              {/* <TextField id="filled-basic" label="Filled" variant="filled" sx={{ m: 1, width: '30ch' }} /> */}
-            {/* <input
-              type='text'
-              name='name'
-              id='name'
-              placeholder='Room Name'
-            /> */}
           </div>
           <div>
           <TextField id="outlined-basic" label="Email Of Members" variant="outlined" sx={{ m: 1, width: '30ch' }}
               value={users}
               onChange={(e) => setUsers(e.target.value)}/>
-            {/* <input
-              type='text'
-              name='users'
-              id='users'
-              placeholder='Email of Members'
-            /> */}
           </div>
           <div>
             <input

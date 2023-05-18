@@ -1,7 +1,6 @@
 .signIn {
     background-size: cover;
     flex: 1;
-    /* height: 100vh; */
     display: flex;
     justify-content: center;
     padding-top: 50px;
@@ -22,18 +21,6 @@ input{
     width:100%;
     box-sizing:border-box;
 }
-
-/* #logIn{
-    background-color: hsla(234, 64%, 55%, 0.863);
-    border:none;
-    border-radius: 3px;
-    color: beige;
-    font-weight: bold;
-    padding: 5px;
-    width:80%;
-    cursor: pointer;
-
- } */
 
 .loginForm2{
     background-color: rgb(235, 241, 253);
